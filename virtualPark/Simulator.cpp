@@ -355,7 +355,6 @@ void Simulator::draw(Graphics* pGraphics)
 {
     // 创建GDI+的坐标位移对象
     Matrix transform;
-    // 创建背景画刷
 
     // 绘制显示屏
     transform.Translate(20, 135);
