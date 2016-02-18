@@ -23,7 +23,7 @@ public:
     // 查询场内车数量
     int getCarInParkingLotSum();
     // 绘制
-    void draw(Graphics* pParkGraphics, Graphics* pDisplayGraphics, Graphics* pAlarmGraphics);
+    void draw(Graphics* pGraphics);
 
 private:
     // 显示屏

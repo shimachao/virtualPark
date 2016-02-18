@@ -70,3 +70,7 @@ using Gdiplus::SolidBrush;
 using Gdiplus::FontStyleBold;
 using Gdiplus::UnitPoint;
 using Gdiplus::StringAlignmentCenter;
+using Gdiplus::Matrix;
+using Gdiplus::PrivateFontCollection;
+using Gdiplus::FontStyleRegular;
+using Gdiplus::UnitPixel;
