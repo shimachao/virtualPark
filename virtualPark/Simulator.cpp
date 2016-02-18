@@ -351,31 +351,43 @@ int Simulator::getCarInParkingLotSum()
 
 
 // 绘制
-void Simulator::draw(Graphics* pParkGraphics, Graphics* pDisplayGraphics, Graphics* pAlarmGraphics)
+void Simulator::draw(Graphics* pGraphics)
 {
-    // 绘制车位
-    drawParkingSpace(pParkGraphics);
-    
-    // 绘制栏杆
-    drawRailing(pParkGraphics);
+    // 创建GDI+的坐标位移对象
+    Matrix transform;
+    // 创建背景画刷
 
     // 绘制显示屏
-    drawDisplay(pDisplayGraphics);
+    transform.Translate(20, 135);
+    pGraphics->SetTransform(&transform);
+    drawDisplay(pGraphics);
+    transform.Reset();
 
     // 绘制警报器
-    drawAlarm(pAlarmGraphics);
+    transform.Translate(620, 160);
+    pGraphics->SetTransform(&transform);
+    drawAlarm(pGraphics);
+    transform.Reset();
 
+    // 绘制车位、栏杆、汽车，它们使用同一套坐标
+    transform.Translate(0, 250);
+    pGraphics->SetTransform(&transform);
+    // 绘制车位
+    drawParkingSpace(pGraphics);
+    // 绘制栏杆
+    drawRailing(pGraphics);
     // 绘制汽车
-    //pParkGraphics->TranslateTransform(100, 0);
     for each (Car* pCar in m_carList)
     {
-        pCar->draw(pParkGraphics);
+        pCar->draw(pGraphics);
     }
     for each (Car* pCar in m_waitRoadQue)
     {
-        pCar->draw(pParkGraphics);
+        pCar->draw(pGraphics);
     }
-    //pParkGraphics->TranslateTransform(0, 0);
+
+    transform.Reset();
+    pGraphics->SetTransform(&transform);
 }
 
 
@@ -403,18 +415,18 @@ void Simulator::drawRailing(Graphics* pParkGraphics)
     railingState = m_pExitRailing->getState();
     if (railingState == DOWN)
     {
-        pParkGraphics->DrawImage(m_pRailingImage, (halfParkingSpaceSum + 4) * 50, 100, 9, 100);
+        pParkGraphics->DrawImage(m_pRailingImage, (halfParkingSpaceSum + 4) * 50 - 9 , 100, 9, 100);
     }
     else if (railingState == RAISING ||
         railingState == FALLING)
     {
-        Rect destRect((halfParkingSpaceSum + 4) * 50, 100, 9, 50);
+        Rect destRect((halfParkingSpaceSum + 4) * 50 - 9, 100, 9, 50);
         pParkGraphics->DrawImage(m_pRailingImage, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
     }
     else
     {
         HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
-        pParkGraphics->FillEllipse(&b, (halfParkingSpaceSum + 4) * 50, 100, 10, 10);
+        pParkGraphics->FillEllipse(&b, (halfParkingSpaceSum + 4) * 50 - 9, 100, 10, 10);
     }
 }
 
@@ -423,7 +435,10 @@ void Simulator::drawRailing(Graphics* pParkGraphics)
 void Simulator::drawParkingSpace(Graphics* pParkGraphics)
 {
     Pen pen(Color(0, 0, 0));
+    // 绘制边框
     int halfParkingSpaceSum = m_pInfoSystem->getHalfParkingLotSum();
+    pParkGraphics->DrawRectangle(&pen, 0, 0, (halfParkingSpaceSum + 4) * 50, 300);
+    // 绘制车位
     for (size_t i = 2; i <= halfParkingSpaceSum + 2; i++)
     {
         pParkGraphics->DrawLine(&pen, i * 50, 0, i * 50, 100);
@@ -433,14 +448,46 @@ void Simulator::drawParkingSpace(Graphics* pParkGraphics)
     pParkGraphics->DrawLine(&pen, 100, 200, (halfParkingSpaceSum + 2) * 50, 200);
 }
 
+Gdiplus::Font* getQuartzRegularFont()
+{
+    PrivateFontCollection fontCollection;
+    fontCollection.AddFontFile(L"res/Quartz Regular.ttf");
+    FontFamily* pFontFamily = new FontFamily[1];
+
+    int found = 0;
+    fontCollection.GetFamilies(1, pFontFamily, &found);
+    WCHAR familyName[LF_FACESIZE + 22];
+    pFontFamily[0].GetFamilyName(familyName);
+
+    TRACE(familyName);
+    TRACE("\n%d\n",pFontFamily[0].IsStyleAvailable(FontStyleRegular));
+    TRACE("\n%d\n", pFontFamily[0].IsStyleAvailable(FontStyleBold));
+    Gdiplus::Font* pFont = ::new Gdiplus::Font(familyName, 18, FontStyleBold, UnitPixel, &fontCollection);
+
+    return pFont;
+}
 
 // 绘制显示屏
-void Simulator::drawDisplay(Graphics* pDisplayGraphics)
+void Simulator::drawDisplay(Graphics* pGraphics)
 {
+    // 绘制背景
+    SolidBrush backBrush(Color(20, 20, 20));
+    pGraphics->FillRectangle(&backBrush, 0, 0, 110, 110);
+    
+    Pen pen(Color(100,100,100));
+    for (int x = 0; x <= 110; x += 5)
+    {
+        pGraphics->DrawLine(&pen, x, 0, x, 110);
+    }
+    for (int y = 0; y <= 110; y += 5)
+    {
+        pGraphics->DrawLine(&pen, 0, y, 110, y);
+    }
+
+    // 绘制文字
     WCHAR string[24] = { '\0' };
     swprintf_s(string, 24, L"当前场内还剩%d个空闲车位", m_pDisplay->getNumOfFreeParkingLots());
     FontFamily   fontFamily(L"Arial");
-    Gdiplus::Font         font(&fontFamily, 14, FontStyleBold, UnitPoint);
     RectF        rectF(0.0f, 10.0f, 110.0f, 110.0f);
     StringFormat stringFormat;
     SolidBrush   solidBrush(Color(255, 0, 0));
@@ -448,8 +495,8 @@ void Simulator::drawDisplay(Graphics* pDisplayGraphics)
     stringFormat.SetAlignment(StringAlignmentCenter);
 
     stringFormat.SetLineAlignment(StringAlignmentCenter);
-
-    pDisplayGraphics->DrawString(string, -1, &font, rectF, &stringFormat, &solidBrush);
+    static Gdiplus::Font* pFont = getQuartzRegularFont();
+    pGraphics->DrawString(string, -1, pFont, rectF, &stringFormat, &solidBrush);
 }
 
 

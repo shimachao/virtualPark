@@ -57,22 +57,22 @@ BOOL CvirtualParkDlg::OnInitDialog()
 	// 从这里开始是自己添加的初始化代码
     // 设置整个客户区大小
     setClientSize(700,700);
-    // 设置显示屏坐标
-    CWnd* pwnd = GetDlgItem(IDC_DISPLAY);
-    pwnd->MoveWindow(20, 130, 110, 110);
-    // 设置警报器坐标
-    pwnd = GetDlgItem(IDC_ALARM);
-    pwnd->MoveWindow(620, 160, 60, 60);
-    // 设置车场模拟图坐标
-    pwnd = GetDlgItem(IDC_PARK);
-    pwnd->MoveWindow(0, 250, 700, 300);
+    //// 设置显示屏坐标
+    //CWnd* pwnd = GetDlgItem(IDC_DISPLAY);
+    //pwnd->MoveWindow(20, 130, 110, 110);
+    //// 设置警报器坐标
+    //pwnd = GetDlgItem(IDC_ALARM);
+    //pwnd->MoveWindow(620, 160, 60, 60);
+    //// 设置车场模拟图坐标
+    //pwnd = GetDlgItem(IDC_PARK);
+    //pwnd->MoveWindow(0, 250, 700, 300);
     // 设置及时消息框坐标
-    pwnd = GetDlgItem(IDC_INFORM);
-    pwnd->MoveWindow(0, 550, 500, 150);
-    // 创建GDI+绘制对象
-    m_pParkGraphics = ::new Graphics(GetDlgItem(IDC_PARK)->GetSafeHwnd());
-    m_pDisplayGraphics = ::new Graphics(GetDlgItem(IDC_DISPLAY)->GetSafeHwnd());
-    m_pAlarmGraphics = ::new Graphics(GetDlgItem(IDC_ALARM)->GetSafeHwnd());
+    CWnd* pwnd = GetDlgItem(IDC_INFORM);
+    pwnd->MoveWindow(0, 555, 500, 145);
+    //// 创建GDI+绘制对象
+    //m_pParkGraphics = ::new Graphics(GetDlgItem(IDC_PARK)->GetSafeHwnd());
+    //m_pDisplayGraphics = ::new Graphics(GetDlgItem(IDC_DISPLAY)->GetSafeHwnd());
+    //m_pAlarmGraphics = ::new Graphics(GetDlgItem(IDC_ALARM)->GetSafeHwnd());
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -105,9 +105,20 @@ void CvirtualParkDlg::OnPaint()
 	{
         if (m_pSimulator)
         {
+            // 创建内存兼容DC，准备双缓冲
+            CPaintDC dc(this);
+            HDC hMemDC = CreateCompatibleDC(dc);
+            HBITMAP hMemBitMap = CreateCompatibleBitmap(dc, 700, 700);
+            SelectObject(hMemDC, hMemBitMap);
+            // 根据内存DC创建GDI+绘制对象
+            Graphics graphics(hMemDC);
+            // 绘制
             SolidBrush whiteBrush(Color(255, 255, 255));
-            m_pParkGraphics->FillRectangle(&whiteBrush, 0, 0, 700, 300);
-            m_pSimulator->draw(m_pParkGraphics, m_pDisplayGraphics, m_pAlarmGraphics);
+            graphics.FillRectangle(&whiteBrush, 0, 0, 700, 700);
+            m_pSimulator->draw(&graphics);
+            // 复制到目标DC
+            BitBlt(dc, 0, 130, 700, 421, hMemDC, 0, 130, SRCCOPY);
+            DeleteDC(hMemDC);
         }
         
 		CDialogEx::OnPaint();
@@ -160,6 +171,10 @@ void CvirtualParkDlg::OnBnClickedGenerateGraphics()
 
     // 创建模拟器对象
     m_pSimulator = new Simulator(employeeSum, m_halfParkingSpaceSum);
+
+    // 通知窗口更新
+    Invalidate(FALSE);
+    UpdateWindow();
 }
 
 
