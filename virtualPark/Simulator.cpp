@@ -500,18 +500,21 @@ void Simulator::drawDisplay(Graphics* pGraphics)
 
 
 // »æÖÆ¾¯±¨Æ÷
-void Simulator::drawAlarm(Graphics* pAlarmGraphics)
+void Simulator::drawAlarm(Graphics* pGraphics)
 {
+    // »æÖÆ±ß¿ò
+    Pen pen(Color(0, 0, 0));
+    pGraphics->DrawRectangle(&pen, 0, 0, 60, 60);
     AlarmState state = m_pAlarm->getState();
     if (state == OFF)
     {
         SolidBrush brush(Color(200, 200, 200));
-        pAlarmGraphics->FillEllipse(&brush, 1, 1, 58, 58);
+        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
     }
     else
     {
         SolidBrush brush(Color(255, 0, 0));
-        pAlarmGraphics->FillEllipse(&brush, 1, 1, 58, 58);
+        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
     }
 }
 
