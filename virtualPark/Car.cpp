@@ -239,7 +239,10 @@ void Car::parkedUpdate()
     // 递减停车时长
     m_parkDuration--;
     // 如果时间到了就像系统申请上车道离开
-    // todo
+    if (m_parkDuration == 0)
+    {
+        m_state = WAITING_ROAD_FREE;
+    }
 }
 
 
@@ -401,7 +404,7 @@ void Car::draw(Graphics* pGraphics)
         break;
     }
     // 绘制图形
-    TRACE("\nlocation=(%d,%d)\n rcDest=[%d,%d,%d,%d]\n", m_location.x, m_location.y, rcDest.X, rcDest.Y, rcDest.Width, rcDest.Height);
+    TRACE("\nlocation=(%d,%d)\n rcDest=[%f,%f,%f,%f]\n", m_location.x, m_location.y, rcDest.X, rcDest.Y, rcDest.Width, rcDest.Height);
     pGraphics->DrawImage(pImg, rcDest);
     
 
