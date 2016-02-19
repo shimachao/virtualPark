@@ -180,10 +180,24 @@ void CvirtualParkDlg::OnBnClickedGenerateGraphics()
 
 void CvirtualParkDlg::OnBnClickedStart()
 {
-    // 将“开始模拟”按钮设为不可用
-    GetDlgItem(IDC_START)->EnableWindow(FALSE);
-    // 开启时钟
-    m_clickTimer = SetTimer(CLICK, 1000, NULL);
+    static bool startOrStop = true;
+
+    if (startOrStop)
+    {
+        // 将“开始模拟”按钮设为"停止模拟"
+        SetDlgItemText(IDC_START ,_T("停止模拟"));
+        // 开启时钟
+        m_clickTimer = SetTimer(CLICK, 1000, NULL);
+    }
+    else
+    {
+        // 将“停止模拟”按钮设为“开始模拟”按钮
+        SetDlgItemText(IDC_START, _T("开始模拟"));
+        // 关闭时钟
+        KillTimer(m_clickTimer);
+    }
+    
+    startOrStop = !startOrStop;
 }
 
 

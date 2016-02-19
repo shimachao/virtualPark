@@ -186,18 +186,18 @@ void Simulator::click()
     }
 
     // 随机生成入场的汽车
-    //static default_random_engine e;
-    //static bernoulli_distribution b(0.2); // 0.1的可能生成入场的汽车
-    //if (b(e))
-    //{
-    //    generateACarToEner();
-    //}
-    static bool f = true;
+    static default_random_engine e;
+    static bernoulli_distribution b(0.1); // 0.1的可能生成入场的汽车
+    if (b(e))
+    {
+        generateACarToEner();
+    }
+   /* static bool f = true;
     if (f)
     {
         generateACarToEner();
         f = false;
-    }
+    }*/
 }
 
 

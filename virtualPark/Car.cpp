@@ -9,7 +9,7 @@ Car::Car()
     : m_cardNum(0)
     , m_speedx(0)
     , m_speedy(0)
-    , m_location(Point(-3,3))
+    , m_location(Point(-1,3))
     , m_direction(RIGHT)
     , m_state(INITIALIZATION)
     , m_parkingSpaceNum(-1)
@@ -59,6 +59,7 @@ void Car::update()
     default:
         break;
     }
+    TRACE("\nloaction:x=%d,y=%d\n", m_location.x, m_location.y);
 }
 
 
@@ -167,10 +168,11 @@ void Car::rejectOutRequest()
 // “正在入场”时的更新方法
 void Car::enteringUpdate()
 {
+    TRACE("enteringUpdate()");
     // 更新坐标
     m_location.x += m_speedx;
     // 检测是否通过了栏杆
-    if (m_location.x - 0 >= 2)
+    if (m_location.x == 1)
     {
         // 如果通过了，就进入下一状态
         m_state = SERACHING;
@@ -183,10 +185,11 @@ void Car::enteringUpdate()
 // “搜索车位”时的更新方法
 void Car::searchingUpdate()
 {
+    TRACE("searchingUpdate()");
     // 更新坐标
     m_location.x += m_speedx;
     // 检测是否到达车位跟前
-    if (m_location.x >= m_parkingSpaceNum % m_halfParkingSpaceSum + 2)
+    if (m_location.x == m_parkingSpaceNum % m_halfParkingSpaceSum + 2)
     {
         // 如果已到达，则修改速度和朝向并进入“进入车位”状态
         m_speedx = 0;
@@ -216,6 +219,7 @@ void Car::movingToParkingSpaceUpdate()
     {
         // 修改速度和朝向，进入下一状态
         m_speedy = 0;
+        m_location.y = 1;
         m_direction = DOWNWARD;
         m_state = PARKED;
     }
@@ -223,6 +227,7 @@ void Car::movingToParkingSpaceUpdate()
     {
         m_speedy = 0;
         m_direction = UPWARD;
+        m_location.y = 4;
         m_state = PARKED;
     }
 }
@@ -369,26 +374,26 @@ void Car::draw(Graphics* pGraphics)
     case UPWARD:
         rcDest.X = m_location.x * 50;
         rcDest.Width = 50;
-        rcDest.Y = (m_location.y - 1) * 50;
+        rcDest.Y = m_location.y * 50;
         rcDest.Height = 100;
         pImg = (*m_imgArray)[0];
         break;
     case DOWNWARD:
         rcDest.X = m_location.x * 50;
         rcDest.Width = 50;
-        rcDest.Y = m_location.y * 50;
+        rcDest.Y = (m_location.y - 1) * 50;
         rcDest.Height = 100;
         pImg = (*m_imgArray)[1];
         break;
     case LEFT:
-        rcDest.X = (m_location.x - 1) * 50;
+        rcDest.X = m_location.x * 50;
         rcDest.Width = 100;
         rcDest.Y = m_location.y * 50;
         rcDest.Height = 50;
         pImg = (*m_imgArray)[2];
         break;
     case RIGHT:
-        rcDest.X = m_location.x * 50;
+        rcDest.X = (m_location.x - 1) * 50;
         rcDest.Width = 100;
         rcDest.Y = m_location.y * 50;
         rcDest.Height = 50;
@@ -396,7 +401,9 @@ void Car::draw(Graphics* pGraphics)
         break;
     }
     // 绘制图形
+    TRACE("\nlocation=(%d,%d)\n rcDest=[%d,%d,%d,%d]\n", m_location.x, m_location.y, rcDest.X, rcDest.Y, rcDest.Width, rcDest.Height);
     pGraphics->DrawImage(pImg, rcDest);
+    
 
     // 绘制编号
     WCHAR string[2] = { '\0' };
