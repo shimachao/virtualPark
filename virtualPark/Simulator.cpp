@@ -567,7 +567,7 @@ void Simulator::generateACarToEner()
 // 查询场内汽车数
 int Simulator::getCarInSum()
 {
-    return m_carEnteredSum - m_carEnteredSum;
+    return m_carInParkingLotSum;
 }
 
 
@@ -588,5 +588,12 @@ int Simulator::getCarExitSum()
 // 获取平均停车时长
 int Simulator::getAverageParkedTime()
 {
-    return m_totalParkTime / m_carEnteredSum;
+    if (m_carEnteredSum != 0)
+    {
+        return m_totalParkTime / m_carEnteredSum;
+    }
+    else
+    {
+        return 0;
+    }
 }
