@@ -583,3 +583,10 @@ int Simulator::getCarExitSum()
 {
     return m_carExitedSum;
 }
+
+
+// 获取平均停车时长
+int Simulator::getAverageParkedTime()
+{
+    return m_totalParkTime / m_carEnteredSum;
+}

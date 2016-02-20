@@ -98,5 +98,8 @@ private:
     void loadCarImg();
     // 生成一辆入场的汽车
     void generateACarToEner();
+public:
+    // 获取平均停车时长
+    int getAverageParkedTime();
 };
 
