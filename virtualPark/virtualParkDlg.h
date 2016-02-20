@@ -33,12 +33,6 @@ protected:
 private:
     // 设置窗口客户区大小
     void setClientSize(int width, int height);
-    // 负责绘制车场模拟图
-    Graphics* m_pParkGraphics;
-    // 负责绘制显示屏的gdi+对象
-    Graphics* m_pDisplayGraphics;
-    // 负责绘制警报器的GDI+对象
-    Graphics* m_pAlarmGraphics;
     // 单排停车位数
     int m_halfParkingSpaceSum;
 public:
@@ -53,4 +47,9 @@ private:
     UINT_PTR m_clickTimer;
 public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
+private:
+    // 更新界面上显示的数据
+    void updateDlgData();
+    // 模拟器运行总时长，暂停时不算
+    int m_clickTimeSum;
 };

@@ -19,12 +19,10 @@
 
 CvirtualParkDlg::CvirtualParkDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_VIRTUALPARK_DIALOG, pParent)
-    , m_pParkGraphics(NULL)
-    , m_pDisplayGraphics(NULL)
-    , m_pAlarmGraphics(NULL)
     , m_halfParkingSpaceSum(0)
     , m_pSimulator(NULL)
     , m_clickTimer(0)
+    , m_clickTimeSum(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -206,9 +204,33 @@ void CvirtualParkDlg::OnTimer(UINT_PTR nIDEvent)
     if (nIDEvent == m_clickTimer)
     {
         m_pSimulator->click();
+        m_clickTimeSum++;
+        updateDlgData();
         Invalidate(FALSE);
         UpdateWindow();
     }
 
     CDialogEx::OnTimer(nIDEvent);
+}
+
+
+// 更新界面上显示的数据
+void CvirtualParkDlg::updateDlgData()
+{
+    // 设置场内汽车数
+    CString s;
+    s.Format(L"%d辆", m_pSimulator->getCarInSum());
+    SetDlgItemText(IDC_CAR_IN_SUM, s);
+    // 入场车次
+    s.Format(L"%d次", m_pSimulator->getCarEnterSum());
+    SetDlgItemText(IDC_ENTER_TIMES, s);
+    // 出场车次
+    s.Format(L"%d次", m_pSimulator->getCarExitSum());
+    SetDlgItemText(IDC_OUT_TIMES, s);
+    // 模拟器运行时长
+    s.Format(L"%d秒", m_clickTimeSum);
+    SetDlgItemText(IDC_TIME_PASSED, s);
+    // 平均停车时长
+    s.Format(L"%d秒", m_pSimulator->getAverageParkedTime());
+    SetDlgItemText(IDC_AVERAGE_TIME, s);
 }
