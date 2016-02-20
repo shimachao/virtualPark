@@ -562,3 +562,24 @@ void Simulator::generateACarToEner()
     // 加入等待队列
     m_waitQueue.push_back(pCar);
 }
+
+
+// 查询场内汽车数
+int Simulator::getCarInSum()
+{
+    return m_carEnteredSum - m_carEnteredSum;
+}
+
+
+// 查询入场车次
+int Simulator::getCarEnterSum()
+{
+    return m_carEnteredSum;
+}
+
+
+// 查询出场车次
+int Simulator::getCarExitSum()
+{
+    return m_carExitedSum;
+}

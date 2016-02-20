@@ -24,6 +24,12 @@ public:
     int getCarInParkingLotSum();
     // 绘制
     void draw(Graphics* pGraphics);
+    // 查询场内汽车数
+    int getCarInSum();
+    // 查询入场车次
+    int getCarEnterSum();
+    // 查询出场车次
+    int getCarExitSum();
 
 private:
     // 显示屏
