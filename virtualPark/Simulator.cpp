@@ -461,7 +461,7 @@ Gdiplus::Font* getQuartzRegularFont()
     TRACE(familyName);
     TRACE("\n%d\n",pFontFamily[0].IsStyleAvailable(FontStyleRegular));
     TRACE("\n%d\n", pFontFamily[0].IsStyleAvailable(FontStyleBold));
-    Gdiplus::Font* pFont = ::new Gdiplus::Font(familyName, 18, FontStyleBold, UnitPixel, &fontCollection);
+    Gdiplus::Font* pFont = ::new Gdiplus::Font(familyName, 22, FontStyleBold, UnitPixel, &fontCollection);
 
     return pFont;
 }
@@ -486,8 +486,7 @@ void Simulator::drawDisplay(Graphics* pGraphics)
     // 绘制文字
     WCHAR string[24] = { '\0' };
     swprintf_s(string, 24, L"当前场内还剩%d个空闲车位", m_pDisplay->getNumOfFreeParkingLots());
-    FontFamily   fontFamily(L"Arial");
-    RectF        rectF(0.0f, 10.0f, 110.0f, 110.0f);
+    RectF        rectF(0.0f, 0.0f, 110.0f, 110.0f);
     StringFormat stringFormat;
     SolidBrush   solidBrush(Color(255, 0, 0));
 
