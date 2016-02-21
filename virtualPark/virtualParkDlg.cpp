@@ -190,7 +190,7 @@ void CvirtualParkDlg::OnBnClickedStart()
     else
     {
         // 将“停止模拟”按钮设为“开始模拟”按钮
-        SetDlgItemText(IDC_START, _T("开始模拟"));
+        SetDlgItemText(IDC_START, _T("继续模拟"));
         // 关闭时钟
         KillTimer(m_clickTimer);
     }
