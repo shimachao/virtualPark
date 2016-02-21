@@ -414,18 +414,18 @@ void Simulator::drawRailing(Graphics* pParkGraphics)
     railingState = m_pExitRailing->getState();
     if (railingState == DOWN)
     {
-        pParkGraphics->DrawImage(m_pRailingImage, (halfParkingSpaceSum + 4) * 50 - 9 , 100, 9, 100);
+        pParkGraphics->DrawImage(m_pRailingImage, (halfParkingSpaceSum + 4) * 50 , 100, 9, 100);
     }
     else if (railingState == RAISING ||
         railingState == FALLING)
     {
-        Rect destRect((halfParkingSpaceSum + 4) * 50 - 9, 100, 9, 50);
+        Rect destRect((halfParkingSpaceSum + 4) * 50, 100, 9, 50);
         pParkGraphics->DrawImage(m_pRailingImage, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
     }
     else
     {
         HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
-        pParkGraphics->FillEllipse(&b, (halfParkingSpaceSum + 4) * 50 - 9, 100, 10, 10);
+        pParkGraphics->FillEllipse(&b, (halfParkingSpaceSum + 4) * 50, 100, 10, 10);
     }
 }
 
