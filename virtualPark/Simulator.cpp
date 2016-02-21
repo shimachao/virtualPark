@@ -288,7 +288,7 @@ void Simulator::collectWaitingForRoadCar()
 
     for each (Car* p in waitForRoad)
     {
-        m_waitQueue.push_back(p);
+        m_waitRoadQue.push_back(p);
     }
     waitForRoad.clear();
 }

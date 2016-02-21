@@ -130,7 +130,7 @@ void Car::allowExit()
     // 如果在“等待出场权限”时收到“允许出场”的消息，则修改速度并进入“正在出场中”状态
     if (m_state == WAITING_EXIT_PERMISSION)
     {
-        m_speedy = 1;
+        m_speedx = 1;
         m_state = MOVING_OUT;
     }
 }
@@ -258,6 +258,7 @@ void Car::movingToRoadUpdate()
         m_direction = RIGHT;
         m_speedy = 0;
         m_speedx = 1;
+        m_state = MOVING_TO_EXIT;
     }
 }
 
@@ -268,7 +269,7 @@ void Car::movingToExitUpdate()
     // 更新坐标
     m_location.x += m_speedx;
     // 判断是否到达出口跟前
-    if (m_location.x == m_halfParkingSpaceSum+1)
+    if (m_location.x == m_halfParkingSpaceSum+3)
     {
         // 如果到达了出口跟前，修改速度，刷卡，进入下一状态
         m_speedx = 0;
@@ -284,7 +285,7 @@ void Car::movingOutUpdate()
     // 更新坐标
     m_location.x += m_speedx;
     // 判断是否已经通过出口栏杆
-    if (m_location.x == m_halfParkingSpaceSum + 3)
+    if (m_location.x == m_halfParkingSpaceSum + 5)
     {
         // 如果已经通过，则通知传感器，并进入下一状态
         m_pExitSensor->aCarPassed(this);
