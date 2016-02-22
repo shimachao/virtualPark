@@ -353,23 +353,43 @@ int Simulator::getCarInParkingLotSum()
 // 绘制
 void Simulator::draw(Graphics* pGraphics)
 {
+    // 绘制停车场标题
+    FontFamily fontFamily(L"宋体");
+    Gdiplus::Font font(&fontFamily, 20, FontStyleBold, UnitPixel);
+    RectF        rectF(290.0f, 2.0f, 140.0f, 24.0f);
+    StringFormat stringFormat;
+    SolidBrush   solidBrush(Color(0, 0, 0));
+    stringFormat.SetAlignment(StringAlignmentCenter);
+    stringFormat.SetLineAlignment(StringAlignmentCenter);
+
+    pGraphics->DrawString(L"停车场模拟器", -1, &font, rectF, &stringFormat, &solidBrush);
+    // 给标题绘制一个框框
+    pGraphics->DrawRectangle(&Pen(&solidBrush), rectF);
+
     // 创建GDI+的坐标位移对象
     Matrix transform;
 
     // 绘制显示屏
-    transform.Translate(20, 135);
+    transform.Translate(20, 25);
     pGraphics->SetTransform(&transform);
     drawDisplay(pGraphics);
     transform.Reset();
 
+    // 绘制警报器标题
+    Gdiplus::Font font2(&fontFamily, 12, FontStyleRegular, UnitPixel);
+    RectF rectF2(630.0f, 36.0f, 48.0f, 14.0f);
+    pGraphics->DrawString(L"警报器", -1, &font2, rectF2, &stringFormat, &solidBrush);
+
     // 绘制警报器
-    transform.Translate(620, 160);
+    transform.Translate(640, 75);
     pGraphics->SetTransform(&transform);
     drawAlarm(pGraphics);
     transform.Reset();
 
     // 绘制车位、栏杆、汽车，它们使用同一套坐标
-    transform.Translate(0, 250);
+    static int sum = m_pInfoSystem->getHalfParkingLotSum();
+    static int dx = (720 - (sum + 4) * 50) / 2;
+    transform.Translate(dx, 140);
     pGraphics->SetTransform(&transform);
     // 绘制车位
     drawParkingSpace(pGraphics);

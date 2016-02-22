@@ -54,7 +54,7 @@ BOOL CvirtualParkDlg::OnInitDialog()
 
 	// 从这里开始是自己添加的初始化代码
     // 设置整个客户区大小
-    setClientSize(700,700);
+    setClientSize(730,700);
     //// 设置显示屏坐标
     //CWnd* pwnd = GetDlgItem(IDC_DISPLAY);
     //pwnd->MoveWindow(20, 130, 110, 110);
@@ -106,16 +106,16 @@ void CvirtualParkDlg::OnPaint()
             // 创建内存兼容DC，准备双缓冲
             CPaintDC dc(this);
             HDC hMemDC = CreateCompatibleDC(dc);
-            HBITMAP hMemBitMap = CreateCompatibleBitmap(dc, 700, 700);
+            HBITMAP hMemBitMap = CreateCompatibleBitmap(dc, 720, 450);
             SelectObject(hMemDC, hMemBitMap);
             // 根据内存DC创建GDI+绘制对象
             Graphics graphics(hMemDC);
             // 绘制
             SolidBrush whiteBrush(Color(255, 255, 255));
-            graphics.FillRectangle(&whiteBrush, 0, 0, 700, 700);
+            graphics.FillRectangle(&whiteBrush, 0, 0, 720, 450);
             m_pSimulator->draw(&graphics);
             // 复制到目标DC
-            BitBlt(dc, 0, 130, 700, 421, hMemDC, 0, 130, SRCCOPY);
+            BitBlt(dc, 5, 100, 720, 450, hMemDC, 0, 0, SRCCOPY);
             DeleteDC(hMemDC);
         }
         
