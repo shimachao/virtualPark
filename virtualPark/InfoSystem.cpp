@@ -168,6 +168,7 @@ bool InfoSystem::readCardToEnter(int num)
     else
     {
         TRACE("读卡结果不合法");
+        m_pAlarm->open();
         return false;
     }
 }
@@ -186,6 +187,7 @@ bool InfoSystem::readCardToExit(int num)
     }
     else
     {
+        m_pAlarm->open();
         return false;
     }
 }
