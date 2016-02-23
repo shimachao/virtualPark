@@ -242,6 +242,9 @@ void CvirtualParkDlg::OnBnClickedInsert()
 {
     // 生成一个Car实例，并给其设置一个错误的号码，
     m_pSimulator->generateAWrongCarToEnter();
+    // 更新界面
+    Invalidate(FALSE);
+    UpdateWindow();
 }
 
 
@@ -249,4 +252,7 @@ void CvirtualParkDlg::OnBnClickedInsert()
 void CvirtualParkDlg::OnBnClickedInsertWrongExitCar()
 {
     m_pSimulator->generateAWrongCarToExit();
+    // 更新界面
+    Invalidate(FALSE);
+    UpdateWindow();
 }
