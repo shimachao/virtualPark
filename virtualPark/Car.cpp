@@ -196,11 +196,13 @@ void Car::searchingUpdate()
         if (m_parkingSpaceNum < m_halfParkingSpaceSum)
         {
             m_speedy = -1;
+            m_location.y = 2;
             m_direction = UPWARD;
         }
         else
         {
             m_speedy = 1;
+            m_location.y = 3;
             m_direction = DOWNWARD;
         }
 
