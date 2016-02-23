@@ -172,6 +172,11 @@ void CvirtualParkDlg::OnBnClickedGenerateGraphics()
     // 创建模拟器对象
     m_pSimulator = new Simulator(employeeSum, m_halfParkingSpaceSum);
 
+    // 将“开始模拟”、“插入错误的入场车辆”，“插入错误的出场车辆”按钮设为有效
+    GetDlgItem(IDC_START)->EnableWindow();
+    GetDlgItem(IDC_INSERT)->EnableWindow();
+    GetDlgItem(IDC_INSERT_WRONG_EXIT_CAR)->EnableWindow();
+
     // 通知窗口更新
     Invalidate(FALSE);
     UpdateWindow();
