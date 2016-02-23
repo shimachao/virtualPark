@@ -56,7 +56,7 @@ BOOL CvirtualParkDlg::OnInitDialog()
 
 	// 从这里开始是自己添加的初始化代码
     // 设置整个客户区大小
-    setClientSize(730,700);
+    setClientSize(730,600);
     //// 设置显示屏坐标
     //CWnd* pwnd = GetDlgItem(IDC_DISPLAY);
     //pwnd->MoveWindow(20, 130, 110, 110);
@@ -67,8 +67,6 @@ BOOL CvirtualParkDlg::OnInitDialog()
     //pwnd = GetDlgItem(IDC_PARK);
     //pwnd->MoveWindow(0, 250, 700, 300);
     // 设置及时消息框坐标
-    CWnd* pwnd = GetDlgItem(IDC_INFORM);
-    pwnd->MoveWindow(0, 555, 500, 145);
     //// 创建GDI+绘制对象
     //m_pParkGraphics = ::new Graphics(GetDlgItem(IDC_PARK)->GetSafeHwnd());
     //m_pDisplayGraphics = ::new Graphics(GetDlgItem(IDC_DISPLAY)->GetSafeHwnd());

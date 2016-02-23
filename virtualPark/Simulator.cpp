@@ -353,10 +353,14 @@ int Simulator::getCarInParkingLotSum()
 // 绘制
 void Simulator::draw(Graphics* pGraphics)
 {
+    // 给整个模拟图绘制一个边界
+    Pen pen(Color::LightGray, 3.0F);
+    pen.SetAlignment(PenAlignmentInset);
+    pGraphics->DrawRectangle(&pen, 0, 0, 720, 450);
     // 绘制停车场标题
     FontFamily fontFamily(L"宋体");
     Gdiplus::Font font(&fontFamily, 20, FontStyleBold, UnitPixel);
-    RectF        rectF(290.0f, 2.0f, 140.0f, 24.0f);
+    RectF        rectF(290.0f, 5.0f, 140.0f, 24.0f);
     StringFormat stringFormat;
     SolidBrush   solidBrush(Color(0, 0, 0));
     stringFormat.SetAlignment(StringAlignmentCenter);
@@ -364,7 +368,7 @@ void Simulator::draw(Graphics* pGraphics)
 
     pGraphics->DrawString(L"停车场模拟器", -1, &font, rectF, &stringFormat, &solidBrush);
     // 给标题绘制一个框框
-    pGraphics->DrawRectangle(&Pen(&solidBrush), rectF);
+    pGraphics->DrawRectangle(&Pen(Color::Black), rectF);
 
     // 创建GDI+的坐标位移对象
     Matrix transform;

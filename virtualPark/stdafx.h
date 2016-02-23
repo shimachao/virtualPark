@@ -74,3 +74,4 @@ using Gdiplus::Matrix;
 using Gdiplus::PrivateFontCollection;
 using Gdiplus::FontStyleRegular;
 using Gdiplus::UnitPixel;
+using Gdiplus::PenAlignmentInset;
