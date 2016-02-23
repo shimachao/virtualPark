@@ -631,3 +631,22 @@ void Simulator::generateAWrongCarToEnter()
     // 插入等待队列队头
     m_waitQueue.push_front(pCar);
 }
+
+
+// 生成错误的出场车辆
+void Simulator::generateAWrongCarToExit()
+{
+    // 生成错误的出场的汽车，状态、位置、方向、停车时间，会自动设置好
+    int spaceNum = m_pInfoSystem->getExitNearestParkingLot();
+    int sum = m_pInfoSystem->getHalfParkingLotSum();
+    Car* pCar = Car::GenerateAWrongParkedCar(spaceNum, sum);
+    // 设置错误的卡号
+    int cardNum = m_pInfoSystem->getEmployeeSum() + 2;
+    pCar->setCardNum(cardNum);
+    // 设置汽车的图片
+    int index = (pCar->getCardNum()) % 4;
+    pCar->setImg(&m_carImgArray[index]);
+    // 加入队列
+    m_carList.push_back(pCar);
+    
+}

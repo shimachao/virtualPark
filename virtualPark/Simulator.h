@@ -103,5 +103,7 @@ public:
     int getAverageParkedTime();
     // 生成错误错误的入场车辆
     void generateAWrongCarToEnter();
+    // 生成错误的出场车辆
+    void generateAWrongCarToExit();
 };
 

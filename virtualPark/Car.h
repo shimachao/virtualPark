@@ -124,5 +124,7 @@ public:
     // 设置卡号
     void setCardNum(int num);
     void setHalfParkspaceSum(int sum);
+    // 生成一辆已停好的汽车，但其车牌号是错误的
+    static Car* GenerateAWrongParkedCar(int parkSpaceNum, int halfSpaceSum);
 };
 

@@ -410,8 +410,8 @@ void Car::draw(Graphics* pGraphics)
     
 
     // 绘制编号
-    WCHAR string[2] = { '\0' };
-    swprintf_s(string, 2, L"%d", m_cardNum);
+    WCHAR string[4] = { '\0' };
+    swprintf_s(string, 4, L"%d", m_cardNum);
     FontFamily   fontFamily(L"Arial");
     Gdiplus::Font         font(&fontFamily, 16, FontStyleBold, UnitPoint);
     StringFormat stringFormat;
@@ -433,4 +433,31 @@ void Car::setCardNum(int num)
 void Car::setHalfParkspaceSum(int sum)
 {
     m_halfParkingSpaceSum = sum;
+}
+
+
+// 生成一辆已停好的汽车，但其车牌号是错误的
+Car* Car::GenerateAWrongParkedCar(int parkSpaceNum, int halfSpaceSum)
+{
+    Car* pCar = new Car();
+    // 为了及时看到效果设置其停车时长为0秒
+    pCar->m_parkDuration = 0;
+    pCar->m_state = WAITING_ROAD_FREE;
+    pCar->m_parkingSpaceNum = parkSpaceNum;
+    pCar->m_halfParkingSpaceSum = halfSpaceSum;
+    // 设置位置和方向
+    if (parkSpaceNum < halfSpaceSum)
+    {
+        pCar->m_direction = DOWNWARD;
+        pCar->m_location.x = parkSpaceNum + 2;
+        pCar->m_location.y = 1;
+    }
+    else
+    {
+        pCar->m_direction = UPWARD;
+        pCar->m_location.x = parkSpaceNum % halfSpaceSum + 2;
+        pCar->m_location.y = 4;
+    }
+
+    return pCar;
 }

@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CvirtualParkDlg, CDialogEx)
     ON_BN_CLICKED(IDC_START, &CvirtualParkDlg::OnBnClickedStart)
     ON_WM_TIMER()
     ON_BN_CLICKED(IDC_INSERT, &CvirtualParkDlg::OnBnClickedInsert)
+    ON_BN_CLICKED(IDC_INSERT_WRONG_EXIT_CAR, &CvirtualParkDlg::OnBnClickedInsertWrongExitCar)
 END_MESSAGE_MAP()
 
 
@@ -243,3 +244,9 @@ void CvirtualParkDlg::OnBnClickedInsert()
     m_pSimulator->generateAWrongCarToEnter();
 }
 
+
+
+void CvirtualParkDlg::OnBnClickedInsertWrongExitCar()
+{
+    m_pSimulator->generateAWrongCarToExit();
+}

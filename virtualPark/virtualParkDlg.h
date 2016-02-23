@@ -54,4 +54,5 @@ private:
     int m_clickTimeSum;
 public:
     afx_msg void OnBnClickedInsert();
+    afx_msg void OnBnClickedInsertWrongExitCar();
 };
