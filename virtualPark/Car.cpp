@@ -23,6 +23,7 @@ Car::Car()
     static default_random_engine e;
     static uniform_int_distribution<unsigned> u(5, 300);
     m_parkDuration = u(e);
+    m_location.y = rand() % 2 + 2;
 }
 
 

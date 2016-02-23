@@ -627,7 +627,7 @@ void Simulator::generateAWrongCarToEnter()
     // 生成错误的入场的汽车
     Car* pCar = new Car();
     // 设置错误的卡号
-    int num = m_pInfoSystem->getEmployeeSum() + 1;
+    int num = m_pInfoSystem->getEmployeeSum() + rand() % 5 + 1;
     pCar->setCardNum(num);
     // 设置汽车的图片
     int index = (pCar->getCardNum()) % 4;
@@ -645,7 +645,7 @@ void Simulator::generateAWrongCarToExit()
     int sum = m_pInfoSystem->getHalfParkingLotSum();
     Car* pCar = Car::GenerateAWrongParkedCar(spaceNum, sum);
     // 设置错误的卡号
-    int cardNum = m_pInfoSystem->getEmployeeSum() + 2;
+    int cardNum = m_pInfoSystem->getEmployeeSum() + rand() % 5 + 1;
     pCar->setCardNum(cardNum);
     // 设置汽车的图片
     int index = (pCar->getCardNum()) % 4;
