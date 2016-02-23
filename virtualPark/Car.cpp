@@ -288,7 +288,7 @@ void Car::movingOutUpdate()
     // 更新坐标
     m_location.x += m_speedx;
     // 判断是否已经通过出口栏杆
-    if (m_location.x == m_halfParkingSpaceSum + 5)
+    if (m_location.x == m_halfParkingSpaceSum + 6)
     {
         // 如果已经通过，则通知传感器，并进入下一状态
         m_pExitSensor->aCarPassed(this);
