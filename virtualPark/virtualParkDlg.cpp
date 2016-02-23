@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CvirtualParkDlg, CDialogEx)
     ON_BN_CLICKED(IDC_GENERATE_GRAPHICS, &CvirtualParkDlg::OnBnClickedGenerateGraphics)
     ON_BN_CLICKED(IDC_START, &CvirtualParkDlg::OnBnClickedStart)
     ON_WM_TIMER()
+    ON_BN_CLICKED(IDC_INSERT, &CvirtualParkDlg::OnBnClickedInsert)
 END_MESSAGE_MAP()
 
 
@@ -234,3 +235,11 @@ void CvirtualParkDlg::updateDlgData()
     s.Format(L"%d秒", m_pSimulator->getAverageParkedTime());
     SetDlgItemText(IDC_AVERAGE_TIME, s);
 }
+
+
+void CvirtualParkDlg::OnBnClickedInsert()
+{
+    // 生成一个Car实例，并给其设置一个错误的号码，
+    m_pSimulator->generateAWrongCarToEnter();
+}
+

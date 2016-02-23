@@ -189,3 +189,10 @@ bool InfoSystem::readCardToExit(int num)
         return false;
     }
 }
+
+
+// 查询员工数
+int InfoSystem::getEmployeeSum()
+{
+    return m_employeeSum;
+}

@@ -101,5 +101,7 @@ private:
 public:
     // 获取平均停车时长
     int getAverageParkedTime();
+    // 生成错误错误的入场车辆
+    void generateAWrongCarToEnter();
 };
 

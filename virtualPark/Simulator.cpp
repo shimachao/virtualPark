@@ -566,7 +566,6 @@ void Simulator::loadCarImg()
 // 生成一辆入场的汽车
 void Simulator::generateACarToEner()
 {
-    TRACE("\n生成一辆入场汽车\n");
     // 生成入场的汽车
     Car* pCar = new Car();
     // 设置卡号
@@ -615,4 +614,20 @@ int Simulator::getAverageParkedTime()
     {
         return 0;
     }
+}
+
+
+// 生成错误错误的入场车辆
+void Simulator::generateAWrongCarToEnter()
+{
+    // 生成错误的入场的汽车
+    Car* pCar = new Car();
+    // 设置错误的卡号
+    int num = m_pInfoSystem->getEmployeeSum() + 1;
+    pCar->setCardNum(num);
+    // 设置汽车的图片
+    int index = (pCar->getCardNum()) % 4;
+    pCar->setImg(&m_carImgArray[index]);
+    // 插入等待队列队头
+    m_waitQueue.push_front(pCar);
 }

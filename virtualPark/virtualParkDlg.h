@@ -52,4 +52,6 @@ private:
     void updateDlgData();
     // 模拟器运行总时长，暂停时不算
     int m_clickTimeSum;
+public:
+    afx_msg void OnBnClickedInsert();
 };

@@ -59,5 +59,7 @@ public:
     bool readCardToEnter(int num);
     // 出场时刷卡
     bool readCardToExit(int num);
+    // 查询员工数
+    int getEmployeeSum();
 };
 
