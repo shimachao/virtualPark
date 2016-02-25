@@ -47,8 +47,6 @@ public:
     int requestSpecialParkingLot(int i);
     // 获取单排车位数量
     int getHalfParkingLotSum();
-    // 汽车申请离开
-//    bool requestToLeave();
     // 查询卡号是否合法
     bool isValid(int cardNum);
     // 一辆汽车已经通过栏杆，驶入了停车场
