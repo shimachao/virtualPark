@@ -55,4 +55,13 @@ private:
 public:
     afx_msg void OnBnClickedInsert();
     afx_msg void OnBnClickedInsertWrongExitCar();
+private:
+    // 保存模拟数据到文件
+    void saveDataToFile();
+    // 开始模拟的时间
+    SYSTEMTIME m_startTime;
+    // 模拟结束时间
+    SYSTEMTIME m_endTime;
+public:
+    afx_msg void OnClose();
 };

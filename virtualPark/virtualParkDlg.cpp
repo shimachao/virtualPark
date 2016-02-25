@@ -6,6 +6,7 @@
 #include "virtualPark.h"
 #include "virtualParkDlg.h"
 #include "afxdialogex.h"
+#include <cstdlib>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,6 +26,8 @@ CvirtualParkDlg::CvirtualParkDlg(CWnd* pParent /*=NULL*/)
     , m_clickTimeSum(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    ZeroMemory(&m_startTime, sizeof(m_startTime));
+    ZeroMemory(&m_endTime, sizeof(m_endTime));
 }
 
 void CvirtualParkDlg::DoDataExchange(CDataExchange* pDX)
@@ -40,6 +43,7 @@ BEGIN_MESSAGE_MAP(CvirtualParkDlg, CDialogEx)
     ON_WM_TIMER()
     ON_BN_CLICKED(IDC_INSERT, &CvirtualParkDlg::OnBnClickedInsert)
     ON_BN_CLICKED(IDC_INSERT_WRONG_EXIT_CAR, &CvirtualParkDlg::OnBnClickedInsertWrongExitCar)
+    ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -198,9 +202,19 @@ void CvirtualParkDlg::OnBnClickedStart()
         SetDlgItemText(IDC_START, _T("继续模拟"));
         // 关闭时钟
         KillTimer(m_clickTimer);
+        // 保存结束时间
+        GetLocalTime(&m_endTime);
     }
     
     startOrStop = !startOrStop;
+
+    // 如果是第一次点击，还要保存开始时间
+    static bool isFirstClick = true;
+    if (isFirstClick)
+    {
+        isFirstClick = false;
+        GetLocalTime(&m_startTime);
+    }
 }
 
 
@@ -258,4 +272,29 @@ void CvirtualParkDlg::OnBnClickedInsertWrongExitCar()
     // 更新界面
     Invalidate(FALSE);
     UpdateWindow();
+}
+
+
+// 保存模拟数据到文件
+void CvirtualParkDlg::saveDataToFile()
+{
+    // 文件名
+    CHAR fileName[32] = {'\0'};
+    sprintf(fileName, "%d%02d%02d-%02d%02d%02d-%02d%02d%02d.rpt", m_startTime.wYear, m_startTime.wMonth, m_startTime.wDay, m_startTime.wHour, m_startTime.wMinute, m_startTime.wSecond, m_endTime.wHour, m_endTime.wMinute, m_endTime.wSecond);
+    
+    // 打开文件
+    FILE *fp = fopen(fileName, "w");
+    // 保存数据
+    if (fp)
+    {
+        fprintf(fp, "本次仿真累计入场车次：%d\n本次仿真累计出场车次：%d\n本次仿真汽车的平均停车时间：%d秒\n", m_pSimulator->getCarEnterSum(), m_pSimulator->getCarExitSum(), m_pSimulator->getAverageParkedTime());
+        fclose(fp);
+    }
+}
+
+
+void CvirtualParkDlg::OnClose()
+{
+    saveDataToFile();
+    CDialogEx::OnClose();
 }
