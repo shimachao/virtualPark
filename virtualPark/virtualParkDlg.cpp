@@ -295,6 +295,9 @@ void CvirtualParkDlg::saveDataToFile()
 
 void CvirtualParkDlg::OnClose()
 {
-    saveDataToFile();
+    if (m_pSimulator)
+    {
+        saveDataToFile();
+    }
     CDialogEx::OnClose();
 }

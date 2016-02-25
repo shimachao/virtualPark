@@ -48,7 +48,7 @@ public:
     // 获取单排车位数量
     int getHalfParkingLotSum();
     // 查询卡号是否合法
-    bool isValid(int cardNum);
+//    bool isValid(int cardNum);
     // 一辆汽车已经通过栏杆，驶入了停车场
     void aCarEntered();
     // 一辆汽车通过栏杆，出了停车场

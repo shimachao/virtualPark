@@ -130,12 +130,12 @@ int InfoSystem::getHalfParkingLotSum()
 
 
 // 查询卡号是否合法
-bool InfoSystem::isValid(int cardNum)
-{
-    
-    return cardNum>=0 && cardNum<=m_employeeSum &&
-        m_cardInCollection.find(cardNum) != m_cardInCollection.end();
-}
+//bool InfoSystem::isValid(int cardNum)
+//{
+//    
+//    return cardNum>=0 && cardNum<=m_employeeSum &&
+//        m_cardInCollection.find(cardNum) != m_cardInCollection.end();
+//}
 
 
 // 一辆汽车已经通过栏杆，驶入了停车场

@@ -344,10 +344,10 @@ void Simulator::allowWaitCarToEnter()
 
 
 // 查询场内车数量
-int Simulator::getCarInParkingLotSum()
-{
-    return m_carInParkingLotSum;
-}
+//int Simulator::getCarInParkingLotSum()
+//{
+//    return m_carInParkingLotSum;
+//}
 
 
 // 绘制

@@ -21,7 +21,7 @@ public:
     // 驱动模拟器
     void click();
     // 查询场内车数量
-    int getCarInParkingLotSum();
+//    int getCarInParkingLotSum();
     // 绘制
     void draw(Graphics* pGraphics);
     // 查询场内汽车数
