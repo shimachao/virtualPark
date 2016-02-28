@@ -281,10 +281,6 @@ void Simulator::collectWaitingForRoadCar()
     int n = m_pInfoSystem->getHalfParkingLotSum();
     waitForRoad.sort([n](Car*&p1, Car*&p2) {return
         (p1->getParkingSpaceNum() % n) > (p2->getParkingSpaceNum() % n); });
- /*   int n = m_pInfoSystem->getHalfParkingLotSum();
-    sort(waitForRoad.begin(), waitForRoad.end(),
-        [n](Car*&p1, Car*&p2) {return
-        (p1->getParkingSpaceNum() % n) > (p2->getParkingSpaceNum() % n); });*/
 
     for each (Car* p in waitForRoad)
     {
@@ -341,13 +337,6 @@ void Simulator::allowWaitCarToEnter()
         m_carList.push_front(pCar);
     }
 }
-
-
-// 查询场内车数量
-//int Simulator::getCarInParkingLotSum()
-//{
-//    return m_carInParkingLotSum;
-//}
 
 
 // 绘制
@@ -490,11 +479,11 @@ Gdiplus::Font* getQuartzRegularFont()
 // 绘制显示屏
 void Simulator::drawDisplay(Graphics* pGraphics)
 {
-    // 绘制背景
-    SolidBrush backBrush(Color(20, 20, 20));
+    // 绘制背景颜色
+    SolidBrush backBrush(Color(60, 60, 60));
     pGraphics->FillRectangle(&backBrush, 0, 0, 110, 110);
-    
-    Pen pen(Color(100,100,100));
+    // 绘制上面的线条
+    Pen pen(Color(30, 30, 30),2.0F);
     for (int x = 0; x <= 110; x += 5)
     {
         pGraphics->DrawLine(&pen, x, 0, x, 110);
@@ -503,7 +492,7 @@ void Simulator::drawDisplay(Graphics* pGraphics)
     {
         pGraphics->DrawLine(&pen, 0, y, 110, y);
     }
-
+    
     // 绘制文字
     WCHAR string[24] = { '\0' };
     swprintf_s(string, 24, L"当前场内还剩%d个空闲车位", m_pDisplay->getNumOfFreeParkingLots());

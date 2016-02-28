@@ -74,6 +74,28 @@ public:
     void setImg(Image* (*pImgArray)[4]);
     // 绘制汽车    
     void draw(Graphics* pGraphics);
+
+    // 设置卡号
+    void setCardNum(int num);
+    void setHalfParkspaceSum(int sum);
+    // 生成一辆已停好的汽车，但其车牌号是错误的
+    static Car* GenerateAWrongParkedCar(int parkSpaceNum, int halfSpaceSum);
+
+private:
+    // “正在入场”时的更新方法
+    void enteringUpdate();
+    // “搜索车位”时的更新方法
+    void searchingUpdate();
+    // “向车位移动”时的更新方法
+    void movingToParkingSpaceUpdate();
+    // “已停车”状态下的更新方法
+    void parkedUpdate();
+    // “向车道移动”状态的更新方法
+    void movingToRoadUpdate();
+    // “向出口移动”时的更新方法
+    void movingToExitUpdate();
+    // “正在出场”时的更新函数
+    void movingOutUpdate();
     
 private:
     // 卡号
@@ -104,27 +126,5 @@ private:
     Sensor* m_pExitSensor;
     // 图片列表，包括上下左右四个朝向的图片
     Image* (*m_imgArray)[4];
-
-private:
-    // “正在入场”时的更新方法
-    void enteringUpdate();
-    // “搜索车位”时的更新方法
-    void searchingUpdate();
-    // “向车位移动”时的更新方法
-    void movingToParkingSpaceUpdate();
-    // “已停车”状态下的更新方法
-    void parkedUpdate();
-    // “向车道移动”状态的更新方法
-    void movingToRoadUpdate();
-    // “向出口移动”时的更新方法
-    void movingToExitUpdate();
-    // “正在出场”时的更新函数
-    void movingOutUpdate();
-public:
-    // 设置卡号
-    void setCardNum(int num);
-    void setHalfParkspaceSum(int sum);
-    // 生成一辆已停好的汽车，但其车牌号是错误的
-    static Car* GenerateAWrongParkedCar(int parkSpaceNum, int halfSpaceSum);
 };
 
