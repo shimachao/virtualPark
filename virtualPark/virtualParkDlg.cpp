@@ -61,20 +61,6 @@ BOOL CvirtualParkDlg::OnInitDialog()
 	// 从这里开始是自己添加的初始化代码
     // 设置整个客户区大小
     setClientSize(730,600);
-    //// 设置显示屏坐标
-    //CWnd* pwnd = GetDlgItem(IDC_DISPLAY);
-    //pwnd->MoveWindow(20, 130, 110, 110);
-    //// 设置警报器坐标
-    //pwnd = GetDlgItem(IDC_ALARM);
-    //pwnd->MoveWindow(620, 160, 60, 60);
-    //// 设置车场模拟图坐标
-    //pwnd = GetDlgItem(IDC_PARK);
-    //pwnd->MoveWindow(0, 250, 700, 300);
-    // 设置及时消息框坐标
-    //// 创建GDI+绘制对象
-    //m_pParkGraphics = ::new Graphics(GetDlgItem(IDC_PARK)->GetSafeHwnd());
-    //m_pDisplayGraphics = ::new Graphics(GetDlgItem(IDC_DISPLAY)->GetSafeHwnd());
-    //m_pAlarmGraphics = ::new Graphics(GetDlgItem(IDC_ALARM)->GetSafeHwnd());
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -85,7 +71,6 @@ BOOL CvirtualParkDlg::OnInitDialog()
 
 void CvirtualParkDlg::OnPaint()
 {
-    //TRACE("\n CvirtualParkDlg::OnPaint()");
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // 用于绘制的设备上下文

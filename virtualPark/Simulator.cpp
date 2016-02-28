@@ -482,9 +482,6 @@ Gdiplus::Font* getQuartzRegularFont()
     WCHAR familyName[LF_FACESIZE + 22];
     pFontFamily[0].GetFamilyName(familyName);
 
-    TRACE(familyName);
-    TRACE("\n%d\n",pFontFamily[0].IsStyleAvailable(FontStyleRegular));
-    TRACE("\n%d\n", pFontFamily[0].IsStyleAvailable(FontStyleBold));
     Gdiplus::Font* pFont = ::new Gdiplus::Font(familyName, 22, FontStyleBold, UnitPixel, &fontCollection);
 
     return pFont;

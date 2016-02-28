@@ -31,7 +31,6 @@ void CardReader::update()
             if (!m_readCardAction(m_cardNum))
             {
                 // 通知刷卡者
-                TRACE("\n通知刷卡者非法\n");
                 m_rejectedAction();
             }
             // 如果读卡结果为肯定，则不用管，让栏杆通知刷卡者

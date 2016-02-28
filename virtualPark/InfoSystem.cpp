@@ -129,15 +129,6 @@ int InfoSystem::getHalfParkingLotSum()
 }
 
 
-// 查询卡号是否合法
-//bool InfoSystem::isValid(int cardNum)
-//{
-//    
-//    return cardNum>=0 && cardNum<=m_employeeSum &&
-//        m_cardInCollection.find(cardNum) != m_cardInCollection.end();
-//}
-
-
 // 一辆汽车已经通过栏杆，驶入了停车场
 void InfoSystem::aCarEntered()
 {
@@ -159,7 +150,6 @@ bool InfoSystem::readCardToEnter(int num)
     if ((num >= 0 && num < m_employeeSum) &&
         m_cardInCollection.find(num) == m_cardInCollection.end())
     {
-        TRACE("\n读卡结果合法\n");
         m_cardInCollection.insert(num);
         // 命令栏杆抬起
         m_pEntranceRailing->liftUp();
@@ -167,7 +157,6 @@ bool InfoSystem::readCardToEnter(int num)
     }
     else
     {
-        TRACE("读卡结果不合法");
         m_pAlarm->open();
         return false;
     }

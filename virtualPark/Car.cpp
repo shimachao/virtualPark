@@ -60,7 +60,6 @@ void Car::update()
     default:
         break;
     }
-    TRACE("\nloaction:x=%d,y=%d\n", m_location.x, m_location.y);
 }
 
 
@@ -81,7 +80,6 @@ void Car::setExitSensor(Sensor* pSensor)
 // 收到开始入场消息
 void Car::beginEnter()
 {
-    TRACE("\n beginEnter() \n");
     if (m_state == INITIALIZATION)
     {
         // 刷卡，进入下一状态
@@ -94,7 +92,6 @@ void Car::beginEnter()
 // 允许入场消息
 void Car::allowEnter()
 {
-    TRACE("\n allowEnter() \n");
     if (m_state == WAITING_ENTER_PERMISSION)
     {
         m_speedx = 1;
@@ -106,7 +103,6 @@ void Car::allowEnter()
 // 允许上车道消息
 void Car::allowToRoad()
 {
-    TRACE("\n allowToRoad() \n");
     // 在“等待出车道权限”状态时收到“准许出车道”消息，则
     // 修改速度，进入“向车道行驶”状态
     if (m_state == WAITING_ROAD_FREE)
@@ -127,7 +123,6 @@ void Car::allowToRoad()
 // 准许出场了
 void Car::allowExit()
 {
-    TRACE("\n allowExit() \n");
     // 如果在“等待出场权限”时收到“允许出场”的消息，则修改速度并进入“正在出场中”状态
     if (m_state == WAITING_EXIT_PERMISSION)
     {
@@ -140,7 +135,6 @@ void Car::allowExit()
 // 拒绝入场请求的消息
 void Car::rejectEnterRequest()
 {
-    TRACE("\n rejectEnterRequest() \n");
     if (m_state == WAITING_ENTER_PERMISSION)
     {
         m_state = FINAL;
@@ -151,7 +145,6 @@ void Car::rejectEnterRequest()
 // 收到拒绝出场请求的消息
 void Car::rejectOutRequest()
 {
-    TRACE("\n rejectOutRequest() \n");
     // 如果出场请求被拒绝，则原路返回，进入“搜索车位”状态
     if (m_state == WAITING_EXIT_PERMISSION)
     {
@@ -169,7 +162,6 @@ void Car::rejectOutRequest()
 // “正在入场”时的更新方法
 void Car::enteringUpdate()
 {
-    TRACE("enteringUpdate()");
     // 更新坐标
     m_location.x += m_speedx;
     // 检测是否通过了栏杆
@@ -186,7 +178,6 @@ void Car::enteringUpdate()
 // “搜索车位”时的更新方法
 void Car::searchingUpdate()
 {
-    TRACE("searchingUpdate()");
     // 更新坐标
     m_location.x += m_speedx;
     // 检测是否到达车位跟前
@@ -408,7 +399,6 @@ void Car::draw(Graphics* pGraphics)
         break;
     }
     // 绘制图形
-    TRACE("\nlocation=(%d,%d)\n rcDest=[%f,%f,%f,%f]\n", m_location.x, m_location.y, rcDest.X, rcDest.Y, rcDest.Width, rcDest.Height);
     pGraphics->DrawImage(pImg, rcDest);
     
 
