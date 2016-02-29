@@ -89,8 +89,8 @@ void Railing::draw(Graphics* pGraphics)
     }
     else
     {
-        HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
-        pGraphics->FillEllipse(&b, 0, 100, 10, 10);
+        SolidBrush backBrush(Color(60, 60, 60));
+        pGraphics->FillEllipse(&backBrush, 0, 0, 10, 10);
     }
 }
 
