@@ -365,7 +365,7 @@ void Simulator::draw(Graphics* pGraphics)
     // 绘制显示屏
     transform.Translate(20, 25);
     pGraphics->SetTransform(&transform);
-    drawDisplay(pGraphics);
+    m_pDisplay->draw(pGraphics);
     transform.Reset();
 
     // 绘制警报器标题
@@ -458,53 +458,6 @@ void Simulator::drawParkingSpace(Graphics* pParkGraphics)
     }
     pParkGraphics->DrawLine(&pen, 100, 100, (halfParkingSpaceSum + 2) * 50, 100);
     pParkGraphics->DrawLine(&pen, 100, 200, (halfParkingSpaceSum + 2) * 50, 200);
-}
-
-Gdiplus::Font* getQuartzRegularFont()
-{
-    PrivateFontCollection fontCollection;
-    fontCollection.AddFontFile(L"res/Quartz Regular.ttf");
-    FontFamily* pFontFamily = new FontFamily[1];
-
-    int found = 0;
-    fontCollection.GetFamilies(1, pFontFamily, &found);
-    WCHAR familyName[LF_FACESIZE + 22];
-    pFontFamily[0].GetFamilyName(familyName);
-
-    Gdiplus::Font* pFont = ::new Gdiplus::Font(familyName, 22, FontStyleBold, UnitPixel, &fontCollection);
-
-    return pFont;
-}
-
-// 绘制显示屏
-void Simulator::drawDisplay(Graphics* pGraphics)
-{
-    // 绘制背景颜色
-    SolidBrush backBrush(Color(60, 60, 60));
-    pGraphics->FillRectangle(&backBrush, 0, 0, 110, 110);
-    // 绘制上面的线条
-    Pen pen(Color(30, 30, 30),2.0F);
-    for (int x = 0; x <= 110; x += 5)
-    {
-        pGraphics->DrawLine(&pen, x, 0, x, 110);
-    }
-    for (int y = 0; y <= 110; y += 5)
-    {
-        pGraphics->DrawLine(&pen, 0, y, 110, y);
-    }
-    
-    // 绘制文字
-    WCHAR string[24] = { '\0' };
-    swprintf_s(string, 24, L"当前场内还剩%d个空闲车位", m_pDisplay->getNumOfFreeParkingLots());
-    RectF        rectF(0.0f, 0.0f, 110.0f, 110.0f);
-    StringFormat stringFormat;
-    SolidBrush   solidBrush(Color(255, 0, 0));
-
-    stringFormat.SetAlignment(StringAlignmentCenter);
-
-    stringFormat.SetLineAlignment(StringAlignmentCenter);
-    static Gdiplus::Font* pFont = getQuartzRegularFont();
-    pGraphics->DrawString(string, -1, pFont, rectF, &stringFormat, &solidBrush);
 }
 
 

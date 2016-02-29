@@ -4,6 +4,9 @@ class Display
 public:
     Display();
     ~Display();
+
+    // 绘制
+    void draw(Graphics* pGraphics);
     // 查询空闲车位数
     int getNumOfFreeParkingLots();
     // 设置空闲车位数，只有系统信息类可以调用该方法
