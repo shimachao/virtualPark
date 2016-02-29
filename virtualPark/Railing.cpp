@@ -2,7 +2,7 @@
 #include "Railing.h"
 
 
-Image* Railing::m_pImg = nullptr;
+Image* Railing::s_pImg = nullptr;
 
 
 Railing::Railing()
@@ -79,13 +79,13 @@ void Railing::draw(Graphics* pGraphics)
 {
     if (m_state == DOWN)
     {
-        pGraphics->DrawImage(m_pImg, 0, 0, 9, 100);
+        pGraphics->DrawImage(s_pImg, 0, 0, 9, 100);
     }
     else if (m_state == RAISING ||
              m_state == FALLING)
     {
         Rect destRect(0, 0, 9, 50);
-        pGraphics->DrawImage(m_pImg, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
+        pGraphics->DrawImage(s_pImg, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
     }
     else
     {
@@ -112,5 +112,5 @@ void Railing::setUpAction(function<void()> upAction)
 
 void Railing::setImg(Image *pImg)
 {
-    m_pImg = pImg;
+    s_pImg = pImg;
 }

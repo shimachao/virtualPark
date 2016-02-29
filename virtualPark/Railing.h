@@ -36,6 +36,6 @@ private:
     function<void()> m_upAction;
 
 private:
-    static Image *m_pImg;
+    static Image *s_pImg;
 };
 
