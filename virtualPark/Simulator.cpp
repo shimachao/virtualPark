@@ -342,7 +342,23 @@ void Simulator::allowWaitCarToEnter()
 // 绘制
 void Simulator::draw(Graphics* pGraphics)
 {
-    // 给整个模拟图绘制一个边界
+    drawTitleAndBorder(pGraphics);
+
+    drawDisplay(pGraphics);
+
+    drawAlarm(pGraphics);
+
+    drawParkingSpace(pGraphics);
+   
+    drawRailing(pGraphics);
+
+    drawCar(pGraphics);
+}
+
+
+void Simulator::drawTitleAndBorder(Graphics* pGraphics)
+{
+    // 绘制边界
     Pen pen(Color::LightGray, 3.0F);
     pen.SetAlignment(PenAlignmentInset);
     pGraphics->DrawRectangle(&pen, 0, 0, 720, 450);
@@ -356,51 +372,115 @@ void Simulator::draw(Graphics* pGraphics)
     stringFormat.SetLineAlignment(StringAlignmentCenter);
 
     pGraphics->DrawString(L"停车场模拟器", -1, &font, rectF, &stringFormat, &solidBrush);
-    // 给标题绘制一个框框
+    // 给标题绘制边框
     pGraphics->DrawRectangle(&Pen(Color::Black), rectF);
+}
 
+
+void Simulator::drawDisplay(Graphics* pGraphics)
+{
     // 创建GDI+的坐标位移对象
     Matrix transform;
-
-    // 绘制显示屏
+    // 偏移
     transform.Translate(20, 25);
     pGraphics->SetTransform(&transform);
+    // 绘制
     m_pDisplay->draw(pGraphics);
+    // 恢复偏移
     transform.Reset();
+    pGraphics->SetTransform(&transform);
+}
 
+
+// 绘制警报器
+void Simulator::drawAlarm(Graphics* pGraphics)
+{
     // 绘制警报器标题
-    Gdiplus::Font font2(&fontFamily, 12, FontStyleRegular, UnitPixel);
+    FontFamily fontFamily(L"宋体");
+    StringFormat stringFormat;
+    SolidBrush   solidBrush(Color(0, 0, 0));
+    Gdiplus::Font font(&fontFamily, 12, FontStyleRegular, UnitPixel);
     RectF rectF2(630.0f, 36.0f, 48.0f, 14.0f);
-    pGraphics->DrawString(L"警报器", -1, &font2, rectF2, &stringFormat, &solidBrush);
+    pGraphics->DrawString(L"警报器", -1, &font, rectF2, &stringFormat, &solidBrush);
 
     // 绘制警报器
+    Matrix transform;
     transform.Translate(640, 75);
     pGraphics->SetTransform(&transform);
-    m_pAlarm->draw(pGraphics);
-    transform.Reset();
 
+    m_pAlarm->draw(pGraphics);
+
+    transform.Reset();
+    pGraphics->SetTransform(&transform);
+
+}
+
+
+// 绘制车位
+void Simulator::drawParkingSpace(Graphics* pGraphics)
+{
+    static int sum = m_pInfoSystem->getHalfParkingLotSum();
+    static int dx = (720 - (sum + 4) * 50) / 2;
+
+    Matrix transform;
+    transform.Translate(dx, 140);
+    pGraphics->SetTransform(&transform);
+    Pen pen(Color(0, 0, 0));
+    // 绘制边框
+    int halfParkingSpaceSum = m_pInfoSystem->getHalfParkingLotSum();
+    pGraphics->DrawRectangle(&pen, 0, 0, (halfParkingSpaceSum + 4) * 50, 300);
+    // 绘制车位
+    for (size_t i = 2; i <= halfParkingSpaceSum + 2; i++)
+    {
+        pGraphics->DrawLine(&pen, i * 50, 0, i * 50, 100);
+        pGraphics->DrawLine(&pen, i * 50, 200, i * 50, 300);
+    }
+    pGraphics->DrawLine(&pen, 100, 100, (halfParkingSpaceSum + 2) * 50, 100);
+    pGraphics->DrawLine(&pen, 100, 200, (halfParkingSpaceSum + 2) * 50, 200);
+
+    // 恢复偏移
+    transform.Reset();
+    pGraphics->SetTransform(&transform);
+}
+
+
+// 绘制栏杆
+void Simulator::drawRailing(Graphics* pGraphics)
+{
     // 车场的整体偏移
     static int sum = m_pInfoSystem->getHalfParkingLotSum();
     static int dx = (720 - (sum + 4) * 50) / 2;
+
     // 绘制入口栏杆
+    Matrix transform;
     transform.Translate(dx, 240);
     pGraphics->SetTransform(&transform);
+
     m_pEntranceRailing->draw(pGraphics);
-    transform.Reset();
 
     //绘制出口栏杆
-    transform.Translate(dx+ (sum + 4) * 50, 240);
+    // 相对入口栏杆在x方向上偏移(sum + 4) * 50
+    transform.Translate((sum + 4) * 50, 0);
     pGraphics->SetTransform(&transform);
     m_pExitRailing->draw(pGraphics);
-    transform.Reset();
 
-    // 绘制车位、汽车，它们使用同一套坐标
-    
+    // 恢复偏移
+    transform.Reset();
+    pGraphics->SetTransform(&transform);
+}
+
+
+// 绘制汽车
+void Simulator::drawCar(Graphics* pGraphics)
+{
+    // 车场的整体偏移
+    static int sum = m_pInfoSystem->getHalfParkingLotSum();
+    static int dx = (720 - (sum + 4) * 50) / 2;
+    Matrix transform;
     transform.Translate(dx, 140);
     pGraphics->SetTransform(&transform);
-    // 绘制车位
-    drawParkingSpace(pGraphics);
-    // 绘制汽车
+
+    // 绘制
     for each (Car* pCar in m_carList)
     {
         pCar->draw(pGraphics);
@@ -410,26 +490,9 @@ void Simulator::draw(Graphics* pGraphics)
         pCar->draw(pGraphics);
     }
 
+    // 恢复偏移
     transform.Reset();
     pGraphics->SetTransform(&transform);
-}
-
-
-// 绘制车位
-void Simulator::drawParkingSpace(Graphics* pParkGraphics)
-{
-    Pen pen(Color(0, 0, 0));
-    // 绘制边框
-    int halfParkingSpaceSum = m_pInfoSystem->getHalfParkingLotSum();
-    pParkGraphics->DrawRectangle(&pen, 0, 0, (halfParkingSpaceSum + 4) * 50, 300);
-    // 绘制车位
-    for (size_t i = 2; i <= halfParkingSpaceSum + 2; i++)
-    {
-        pParkGraphics->DrawLine(&pen, i * 50, 0, i * 50, 100);
-        pParkGraphics->DrawLine(&pen, i * 50, 200, i * 50, 300);
-    }
-    pParkGraphics->DrawLine(&pen, 100, 100, (halfParkingSpaceSum + 2) * 50, 100);
-    pParkGraphics->DrawLine(&pen, 100, 200, (halfParkingSpaceSum + 2) * 50, 200);
 }
 
 
