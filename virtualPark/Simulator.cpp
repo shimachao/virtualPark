@@ -82,7 +82,7 @@ Simulator::Simulator(int e, int n)
 
     // 加载栏杆图片
     m_pRailingImage = Image::FromFile(L"img/railing.png");
-
+    Railing::setImg(m_pRailingImage);
     // 加载汽车图片
     loadCarImg();
 }
@@ -379,15 +379,27 @@ void Simulator::draw(Graphics* pGraphics)
     m_pAlarm->draw(pGraphics);
     transform.Reset();
 
-    // 绘制车位、栏杆、汽车，它们使用同一套坐标
+    // 车场的整体偏移
     static int sum = m_pInfoSystem->getHalfParkingLotSum();
     static int dx = (720 - (sum + 4) * 50) / 2;
+    // 绘制入口栏杆
+    transform.Translate(dx, 240);
+    pGraphics->SetTransform(&transform);
+    m_pEntranceRailing->draw(pGraphics);
+    transform.Reset();
+
+    //绘制出口栏杆
+    transform.Translate(dx+ (sum + 4) * 50, 240);
+    pGraphics->SetTransform(&transform);
+    m_pExitRailing->draw(pGraphics);
+    transform.Reset();
+
+    // 绘制车位、汽车，它们使用同一套坐标
+    
     transform.Translate(dx, 140);
     pGraphics->SetTransform(&transform);
     // 绘制车位
     drawParkingSpace(pGraphics);
-    // 绘制栏杆
-    drawRailing(pGraphics);
     // 绘制汽车
     for each (Car* pCar in m_carList)
     {
@@ -400,46 +412,6 @@ void Simulator::draw(Graphics* pGraphics)
 
     transform.Reset();
     pGraphics->SetTransform(&transform);
-}
-
-
-void Simulator::drawRailing(Graphics* pParkGraphics)
-{
-    int halfParkingSpaceSum = m_pInfoSystem->getHalfParkingLotSum();
-    // 绘制入口栏杆
-    int railingState = m_pEntranceRailing->getState();
-    if (railingState == DOWN)
-    {
-        pParkGraphics->DrawImage(m_pRailingImage, 0, 100, 9, 100);
-    }
-    else if (railingState == RAISING ||
-        railingState == FALLING)
-    {
-        Rect destRect(0, 100, 9, 50);
-        pParkGraphics->DrawImage(m_pRailingImage, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
-    }
-    else
-    {
-        HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
-        pParkGraphics->FillEllipse(&b, 0, 100, 10, 10);
-    }
-    // 绘制出口栏杆
-    railingState = m_pExitRailing->getState();
-    if (railingState == DOWN)
-    {
-        pParkGraphics->DrawImage(m_pRailingImage, (halfParkingSpaceSum + 4) * 50 , 100, 9, 100);
-    }
-    else if (railingState == RAISING ||
-        railingState == FALLING)
-    {
-        Rect destRect((halfParkingSpaceSum + 4) * 50, 100, 9, 50);
-        pParkGraphics->DrawImage(m_pRailingImage, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
-    }
-    else
-    {
-        HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
-        pParkGraphics->FillEllipse(&b, (halfParkingSpaceSum + 4) * 50, 100, 10, 10);
-    }
 }
 
 

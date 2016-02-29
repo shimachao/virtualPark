@@ -2,6 +2,8 @@
 #include "Railing.h"
 
 
+Image* Railing::m_pImg = nullptr;
+
 
 Railing::Railing()
     : m_state(DOWN)
@@ -72,6 +74,27 @@ void Railing::update()
 }
 
 
+// »æÖÆ
+void Railing::draw(Graphics* pGraphics)
+{
+    if (m_state == DOWN)
+    {
+        pGraphics->DrawImage(m_pImg, 0, 0, 9, 100);
+    }
+    else if (m_state == RAISING ||
+             m_state == FALLING)
+    {
+        Rect destRect(0, 0, 9, 50);
+        pGraphics->DrawImage(m_pImg, destRect, 0, 0, 9, 100, Gdiplus::UnitPixel);
+    }
+    else
+    {
+        HatchBrush b(HatchStyleHorizontal, Color(255, 255, 0), Color(0, 0, 0));
+        pGraphics->FillEllipse(&b, 0, 100, 10, 10);
+    }
+}
+
+
 // ²éÑ¯À¸¸ËµÄ×´Ì¬
 int Railing::getState()
 {
@@ -83,4 +106,11 @@ int Railing::getState()
 void Railing::setUpAction(function<void()> upAction)
 {
     m_upAction = upAction;
+}
+
+
+
+void Railing::setImg(Image *pImg)
+{
+    m_pImg = pImg;
 }

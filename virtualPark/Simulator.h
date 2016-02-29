@@ -48,8 +48,6 @@ private:
     void allowParkedCarToRoad();
     // 允许在外等待的汽车开始入场
     void allowWaitCarToEnter();
-    // 绘制栏杆
-    void drawRailing(Graphics* pParkGraphics);
     // 绘制车位
     void drawParkingSpace(Graphics* pParkGraphics);
     // 加载汽车图片

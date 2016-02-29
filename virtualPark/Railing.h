@@ -12,9 +12,12 @@ class Railing
 public:
     Railing();
     ~Railing();
+    static void setImg(Image *pImg);
 
     // 更新栏杆的状态，状态是时间驱动的
     void update();
+    // 绘制
+    void draw(Graphics* pGraphics);
     // 抬起杆
     void liftUp();
     // 放下杆
@@ -31,5 +34,8 @@ private:
     int m_timer;
     // 栏杆完全抬起后调用的对象
     function<void()> m_upAction;
+
+private:
+    static Image *m_pImg;
 };
 
