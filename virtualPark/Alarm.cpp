@@ -44,3 +44,22 @@ void Alarm::update()
         }
     }
 }
+
+
+// »æÖÆ
+void Alarm::draw(Graphics* pGraphics)
+{
+    // »æÖÆ±ß¿ò
+    Pen pen(Color(0, 0, 0));
+    pGraphics->DrawRectangle(&pen, 0, 0, 60, 60);
+    if (m_state == OFF)
+    {
+        SolidBrush brush(Color(200, 200, 200));
+        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
+    }
+    else
+    {
+        SolidBrush brush(Color(255, 0, 0));
+        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
+    }
+}

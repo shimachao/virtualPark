@@ -376,7 +376,7 @@ void Simulator::draw(Graphics* pGraphics)
     // 绘制警报器
     transform.Translate(640, 75);
     pGraphics->SetTransform(&transform);
-    drawAlarm(pGraphics);
+    m_pAlarm->draw(pGraphics);
     transform.Reset();
 
     // 绘制车位、栏杆、汽车，它们使用同一套坐标
@@ -458,26 +458,6 @@ void Simulator::drawParkingSpace(Graphics* pParkGraphics)
     }
     pParkGraphics->DrawLine(&pen, 100, 100, (halfParkingSpaceSum + 2) * 50, 100);
     pParkGraphics->DrawLine(&pen, 100, 200, (halfParkingSpaceSum + 2) * 50, 200);
-}
-
-
-// 绘制警报器
-void Simulator::drawAlarm(Graphics* pGraphics)
-{
-    // 绘制边框
-    Pen pen(Color(0, 0, 0));
-    pGraphics->DrawRectangle(&pen, 0, 0, 60, 60);
-    AlarmState state = m_pAlarm->getState();
-    if (state == OFF)
-    {
-        SolidBrush brush(Color(200, 200, 200));
-        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
-    }
-    else
-    {
-        SolidBrush brush(Color(255, 0, 0));
-        pGraphics->FillEllipse(&brush, 1, 1, 58, 58);
-    }
 }
 
 

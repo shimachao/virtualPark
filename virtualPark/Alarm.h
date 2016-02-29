@@ -13,6 +13,8 @@ public:
     AlarmState getState();
     // 更新状态
     void update();
+    // 绘制
+    void draw(Graphics* pGraphics);
 
 private:
     // 警报器的状态

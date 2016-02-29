@@ -52,8 +52,6 @@ private:
     void drawRailing(Graphics* pParkGraphics);
     // 绘制车位
     void drawParkingSpace(Graphics* pParkGraphics);
-    // 绘制警报器
-    void drawAlarm(Graphics* pAlarmGraphics);
     // 加载汽车图片
     void loadCarImg();
     // 生成一辆入场的汽车
